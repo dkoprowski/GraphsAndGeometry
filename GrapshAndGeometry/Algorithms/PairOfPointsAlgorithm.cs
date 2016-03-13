@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,13 +55,40 @@ namespace GrapshAndGeometry.Algorithms
     {
         public void Run()
         {
-            var points = LoadRandomPoints(10, -10, 10);
-            points.Sort();
-            RunTests(25);
-            Console.WriteLine("Recursive: "+FindTheSolutionRecursively(points));
-            Console.WriteLine("Brute: " + FindTheSolutionBrute(points));
-        }
+            Console.WriteLine("\nClosest Pair of Points (Divide and Conquer)\n");
 
+            RunTests(25);
+
+            Console.WriteLine("\npoints\t|\ttime");
+            Console.WriteLine(10000 + "\t|\t" + RunAlgorithm(10000));
+            Console.WriteLine(20000 + "\t|\t" + RunAlgorithm(20000));
+            Console.WriteLine(50000 + "\t|\t" + RunAlgorithm(50000));
+            Console.WriteLine(100000 + "\t|\t" + RunAlgorithm(100000));
+
+            MeasureAverageTime(20, 10000);
+        }
+        private void MeasureAverageTime(int testCount, int pointsCount)
+        {
+            Console.Write("\nAverange time for " + pointsCount + " points is: ");
+            TimeSpan sum = new TimeSpan();
+            for (int i = 0; i < testCount; i++)
+            {
+                sum += RunAlgorithm(pointsCount);
+            }
+
+            Console.WriteLine(sum.TotalSeconds / testCount + " sec");
+        }
+        private TimeSpan RunAlgorithm(int pointsCount)
+        {
+            var points = LoadRandomPoints(pointsCount, -200000, 200000);
+            points.Sort();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            FindTheSolutionRecursively(points);
+            sw.Stop();
+                    
+            return sw.Elapsed;
+        }
         private void RunTests(int count)
         {
             Console.Write("Starting [" + count + "] tests... ");
