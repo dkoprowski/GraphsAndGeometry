@@ -61,13 +61,13 @@ namespace GrapshAndGeometry.Algorithms
 
         private float FindTheSolutionRecursively(List<Point> points)
         {
-            if(points.Count <= 3)
+            if (points.Count <= 3)
             {
                 return closestPairOfPoints(points);
             }
-
-            var leftPointsSet = points.GetRange(0, points.Count / 2);
-            var rightPointsSet = points.GetRange((points.Count / 2), points.Count - leftPointsSet.Count);
+            var middle = points.Count / 2;
+            var leftPointsSet = points.GetRange(0, middle);
+            var rightPointsSet = points.GetRange(middle, points.Count - leftPointsSet.Count);
 
             leftPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
             rightPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
@@ -77,7 +77,31 @@ namespace GrapshAndGeometry.Algorithms
 
             float minDistance = Math.Min(leftMinDistance, rightMinDistance);
 
-            int dividingStraight = leftPointsSet[leftPointsSet.Count - 1].x;
+            int dividingStraight = (points[middle - 1].x + points[middle].x) / 2;
+
+            float leftLimit = dividingStraight - minDistance;
+            float rightLimit = dividingStraight + minDistance;
+
+            List<Point> leftMiddleAreaPoints = new List<Point>();
+            List<Point> rightMiddleAreaPoints = new List<Point>();
+
+            for (int i = leftPointsSet.Count - 1; i >= 0 && leftPointsSet[i].x >= leftLimit; i--)
+            {
+                leftMiddleAreaPoints.Add(leftPointsSet[i]);
+            }
+
+            for (int i = 0; i < rightPointsSet.Count && rightPointsSet[i].x <= rightLimit; i++)
+            {
+                rightMiddleAreaPoints.Add(rightPointsSet[i]);
+            }
+
+            for (var i = 0; i < leftMiddleAreaPoints.Count; i++)
+            {
+                for (var j = 0; j < rightMiddleAreaPoints.Count; j++)
+                {
+                    minDistance = Math.Min(minDistance, leftMiddleAreaPoints[i].DistanceTo(rightMiddleAreaPoints[j]));
+                }
+            }
 
             return minDistance;
         }
