@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GrapshAndGeometry.Algorithms
 {
-    interface IAlgotithm
+    interface IAlgorithm
     {
         void Run();
     }

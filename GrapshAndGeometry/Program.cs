@@ -31,7 +31,7 @@ namespace GrapshAndGeometry
             switch (choosedOption)
             {
                 case "1":
-                    IAlgotithm pairOfPoints = new PairOfPoints();
+                    IAlgorithm pairOfPoints = new PairOfPointsAlgorithm();
                     pairOfPoints.Run();
                     break;
                 default:
