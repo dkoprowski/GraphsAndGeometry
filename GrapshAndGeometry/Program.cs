@@ -17,7 +17,7 @@ namespace GrapshAndGeometry
         static void WriteOptions()
         {
             Console.WriteLine("\nChoose an algorithm:");
-            Console.WriteLine("Type [1] for Test");
+            Console.WriteLine("Type [1] for Closest Pair of Points (Divide and Conquer)");
             Console.WriteLine("Type [exit] to finish program");
 
             GetResponse();
@@ -31,8 +31,8 @@ namespace GrapshAndGeometry
             switch (choosedOption)
             {
                 case "1":
-                    var test1 = new TestAlg();
-                    test1.Run();
+                    IAlgotithm pairOfPoints = new PairOfPoints();
+                    pairOfPoints.Run();
                     break;
                 default:
                     Console.WriteLine("I don't understand. Try something from list below: ");

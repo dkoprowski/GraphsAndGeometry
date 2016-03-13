@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\TestAlg.cs" />
+    <Compile Include="Algorithms\IAlgotithm.cs" />
+    <Compile Include="Algorithms\PairOfPoints.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

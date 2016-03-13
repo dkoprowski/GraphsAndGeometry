@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace GrapshAndGeometry.Algorithms
 {
-    class TestAlg
+    interface IAlgotithm
     {
-        public void Run()
-        {
-            Console.WriteLine("TEST ALGORITHM IS RUNNING!");
-        }
+        void Run();
     }
 }
