@@ -56,17 +56,43 @@ namespace GrapshAndGeometry.Algorithms
         {
             var points = LoadPoints();
             points.Sort();
-
-            var lowerPointsSet = points.GetRange(0, points.Count / 2);
-            var higherPointsSet = points.GetRange((points.Count / 2), points.Count - lowerPointsSet.Count);
-
-            lowerPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
-            higherPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
-
-            int dividingStraight = lowerPointsSet[lowerPointsSet.Count - 1].x;
-
+            Console.WriteLine( FindTheSolutionRecursively(points));
         }
 
+        private float FindTheSolutionRecursively(List<Point> points)
+        {
+            if(points.Count <= 3)
+            {
+                return closestPairOfPoints(points);
+            }
+
+            var leftPointsSet = points.GetRange(0, points.Count / 2);
+            var rightPointsSet = points.GetRange((points.Count / 2), points.Count - leftPointsSet.Count);
+
+            leftPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
+            rightPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
+
+            float leftMinDistance = FindTheSolutionRecursively(leftPointsSet);
+            float rightMinDistance = FindTheSolutionRecursively(rightPointsSet);
+
+            float minDistance = Math.Min(leftMinDistance, rightMinDistance);
+
+            int dividingStraight = leftPointsSet[leftPointsSet.Count - 1].x;
+
+            return minDistance;
+        }
+        private float closestPairOfPoints(List<Point> points)
+        {
+            var minDistance = points[0].DistanceTo(points[1]);
+            for (var i = 0; i < points.Count; ++i)
+            {
+                for (var j = i + 1; j < points.Count; ++j)
+                {
+                    minDistance = Math.Min(minDistance, points[i].DistanceTo(points[j]));
+                }
+            }
+            return minDistance;
+        }
         private List<Point> LoadPoints()
         {
             return new List<Point>()
