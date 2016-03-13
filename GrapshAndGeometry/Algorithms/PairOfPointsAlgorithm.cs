@@ -54,9 +54,31 @@ namespace GrapshAndGeometry.Algorithms
     {
         public void Run()
         {
-            var points = LoadPoints();
+            var points = LoadRandomPoints(10, -10, 10);
             points.Sort();
-            Console.WriteLine( FindTheSolutionRecursively(points));
+            RunTests(25);
+            Console.WriteLine("Recursive: "+FindTheSolutionRecursively(points));
+            Console.WriteLine("Brute: " + FindTheSolutionBrute(points));
+        }
+
+        private void RunTests(int count)
+        {
+            Console.Write("Starting [" + count + "] tests... ");
+            for (int i = 0; i < count; i++)
+            {
+                var points = LoadRandomPoints(100, -100, 100);
+                points.Sort();
+                if(FindTheSolutionRecursively(points) != FindTheSolutionBrute(points))
+                {
+                    Console.WriteLine("FAILED!");
+                    return;
+                }
+            }
+            Console.WriteLine("PASSED!");
+        }
+        private float FindTheSolutionBrute(List<Point> points)
+        {
+            return closestPairOfPoints(points);
         }
 
         private float FindTheSolutionRecursively(List<Point> points)
@@ -68,9 +90,6 @@ namespace GrapshAndGeometry.Algorithms
             var middle = points.Count / 2;
             var leftPointsSet = points.GetRange(0, middle);
             var rightPointsSet = points.GetRange(middle, points.Count - leftPointsSet.Count);
-
-            leftPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
-            rightPointsSet.ForEach(point => Console.WriteLine(point.ToString()));
 
             float leftMinDistance = FindTheSolutionRecursively(leftPointsSet);
             float rightMinDistance = FindTheSolutionRecursively(rightPointsSet);
@@ -117,21 +136,15 @@ namespace GrapshAndGeometry.Algorithms
             }
             return minDistance;
         }
-        private List<Point> LoadPoints()
+        private List<Point> LoadRandomPoints(int count, int min, int max)
         {
-            return new List<Point>()
+            var points = new List<Point>();
+            Random rand = new Random();
+            for (int i = 0; i < count; i++)
             {
-                new Point(-3,0),
-                new Point(-2,-2),
-                new Point(3,3),
-                new Point(4,2),
-                new Point(5,5),
-                new Point(-1,-4),
-                new Point(0,-1),
-                new Point(1,1),
-                new Point(2,-3),
-                new Point(6,4)
-            };
+                points.Add(new Point(rand.Next(min, max), rand.Next(min, max)));
+            }
+            return points;
         }
     }
 }
