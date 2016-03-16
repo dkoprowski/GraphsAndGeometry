@@ -59,14 +59,25 @@ namespace GrapshAndGeometry.Algorithms
 
             RunTests(25);
 
-            Console.WriteLine("\npoints\t|\ttime");
-            Console.WriteLine(10000 + "\t|\t" + RunAlgorithm(10000));
-            Console.WriteLine(20000 + "\t|\t" + RunAlgorithm(20000));
-            Console.WriteLine(50000 + "\t|\t" + RunAlgorithm(50000));
-            Console.WriteLine(100000 + "\t|\t" + RunAlgorithm(100000));
+            Console.WriteLine("\npoints\t|\ttime\t|\ttime/nlogn");
+            RunWithTime(10000);
+            RunWithTime(20000);
+            RunWithTime(40000);
+            RunWithTime(60000);
+            RunWithTime(80000);
+            RunWithTime(100000);
 
             MeasureAverageTime(20, 10000);
         }
+        private void RunWithTime(int elements)
+        {
+            TimeSpan time = RunAlgorithm(elements);
+            double check = time.TotalMilliseconds / (elements * Math.Log(elements, 2));
+
+            Console.WriteLine(elements + "\t|\t" + time + "\t|\t" + check);
+
+        }
+
         private void MeasureAverageTime(int testCount, int pointsCount)
         {
             Console.Write("\nAverange time for " + pointsCount + " points is: ");
