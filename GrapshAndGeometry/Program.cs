@@ -18,6 +18,7 @@ namespace GrapshAndGeometry
         {
             Console.WriteLine("\nChoose an algorithm:");
             Console.WriteLine("Type [1] for Closest Pair of Points (Divide and Conquer)");
+            Console.WriteLine("Type [2] for K-Dimensional tree (Orthogonal range searching)");
             Console.WriteLine("Type [exit] to finish program");
 
             GetResponse();
@@ -33,6 +34,10 @@ namespace GrapshAndGeometry
                 case "1":
                     IAlgorithm pairOfPoints = new PairOfPointsAlgorithm();
                     pairOfPoints.Run();
+                    break;
+                case "2":
+                    IAlgorithm kdTree = new KDTreeAlgorithm();
+                    kdTree.Run();
                     break;
                 default:
                     Console.WriteLine("I don't understand. Try something from list below: ");
