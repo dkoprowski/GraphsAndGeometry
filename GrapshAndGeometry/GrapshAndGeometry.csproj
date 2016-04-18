@@ -46,6 +46,7 @@
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="Algorithms\KDTreeAlgorithm.cs" />
     <Compile Include="Algorithms\PairOfPointsAlgorithm.cs" />
+    <Compile Include="Algorithms\Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

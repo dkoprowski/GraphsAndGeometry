@@ -47,7 +47,7 @@ namespace GrapshAndGeometry.Algorithms
         }
         private TimeSpan RunAlgorithm(int pointsCount)
         {
-            var points = LoadRandomPoints(pointsCount, -200000, 200000);
+            var points = Point.GenerateRandomPoints(pointsCount, -200000, 200000);
             points.Sort();
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -61,7 +61,7 @@ namespace GrapshAndGeometry.Algorithms
             Console.Write("Starting [" + count + "] tests... ");
             for (int i = 0; i < count; i++)
             {
-                var points = LoadRandomPoints(100, -100, 100);
+                var points = Point.GenerateRandomPoints(100, -100, 100);
                 points.Sort();
                 if(FindTheSolutionRecursively(points) != FindTheSolutionBrute(points))
                 {
@@ -130,16 +130,6 @@ namespace GrapshAndGeometry.Algorithms
                 }
             }
             return minDistance;
-        }
-        private List<Point> LoadRandomPoints(int count, int min, int max)
-        {
-            var points = new List<Point>();
-            Random rand = new Random();
-            for (int i = 0; i < count; i++)
-            {
-                points.Add(new Point(rand.Next(min, max), rand.Next(min, max)));
-            }
-            return points;
         }
     }
 }

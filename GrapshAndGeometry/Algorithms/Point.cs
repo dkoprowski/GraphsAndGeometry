@@ -50,5 +50,16 @@ namespace GrapshAndGeometry.Algorithms
         {
             return (float)Math.Sqrt(Math.Pow((x - other.x), 2) + Math.Pow(y - other.y, 2));
         }
+
+        public static List<Point> GenerateRandomPoints(int count, int min, int max)
+        {
+            var points = new List<Point>();
+            Random rand = new Random();
+            for (int i = 0; i < count; i++)
+            {
+                points.Add(new Point(rand.Next(min, max), rand.Next(min, max)));
+            }
+            return points;
+        }
     }
 }
