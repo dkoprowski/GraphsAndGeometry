@@ -10,7 +10,6 @@ namespace GrapshAndGeometry.Algorithms
     {
         public int x;
         public int y;
-
         public Point(int x, int y)
         {
             this.x = x;
@@ -60,6 +59,30 @@ namespace GrapshAndGeometry.Algorithms
                 points.Add(new Point(rand.Next(min, max), rand.Next(min, max)));
             }
             return points;
+        }
+
+        public static int ComparePointsByY(Point p1, Point p2)
+        {
+            if (p1.y < p2.y)
+            {
+                return -1;
+            }
+            else if (p1.y > p2.y)
+            {
+                return 1;
+            }
+            else if(p1.x < p2.x)
+            {
+                return -1;
+            }
+            else if (p1.x > p2.x)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
