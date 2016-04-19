@@ -30,6 +30,28 @@ namespace GrapshAndGeometry.Algorithms
             else
                 return false;
         }
+        public bool Includes(List<Point> regionPoints)
+        {
+            foreach (var item in regionPoints)
+            {
+                if (!Includes(item))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public bool Intersect(List<Point> regionPoints)
+        {
+            foreach (var item in regionPoints)
+            {
+                if (Includes(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public Region()
         {
 
@@ -76,10 +98,15 @@ namespace GrapshAndGeometry.Algorithms
         public void Run()
         {
             var points = Point.GenerateRandomPoints(25, -500, 500);
-            
+            points.Sort();
+            points.ForEach(point => Console.WriteLine(point.ToString()));
+
             var kdTree = BuildKdTree(points, 0, null, new Region(float.PositiveInfinity, float.NegativeInfinity));
             PrintKdTree(kdTree, "", "");
-            KdTreeQuery(kdTree, new Region(660, 500));
+
+            Console.WriteLine();
+            Console.WriteLine("Query for region x[-200:200] y[-200:200]");
+            KdTreeQuery(kdTree, new Region(200, -200));
             Console.WriteLine();
         }
 
@@ -143,8 +170,6 @@ namespace GrapshAndGeometry.Algorithms
 
         private void KdTreeQuery(KDNode node, Region region)
         {
-
-
             if (node.leaf)
             {
                 if (region.Includes(node.point))
@@ -154,9 +179,22 @@ namespace GrapshAndGeometry.Algorithms
             }
             else
             {
-                if (region.Includes(node.region))
+                if (region.Includes(GetLeafs(node.leftSon)))
                 {
                     ReportSubtree(node.leftSon);
+                }
+                else if (region.Intersect(GetLeafs(node.leftSon)))
+                {
+                    KdTreeQuery(node.leftSon, region);
+                }
+
+                if (region.Includes(GetLeafs(node.rightSon)))
+                {
+                    ReportSubtree(node.rightSon);
+                }
+                else if (region.Intersect(GetLeafs(node.rightSon)))
+                {
+                    KdTreeQuery(node.rightSon, region);
                 }
             }
         }
@@ -168,6 +206,20 @@ namespace GrapshAndGeometry.Algorithms
             {
                 ReportSubtree(node.leftSon);
                 ReportSubtree(node.rightSon);
+            }
+        }
+
+        private List<Point> GetLeafs(KDNode node)
+        {
+            if (node.leaf)
+                return new List<Point>() { node.point };
+            else
+            {
+
+                var leftLeafs = GetLeafs(node.leftSon);
+                var rightLeafs = GetLeafs(node.rightSon);
+                leftLeafs.AddRange(rightLeafs);
+                return leftLeafs;
             }
         }
         private void PrintKdTree(KDNode node, string parent, string depth)
