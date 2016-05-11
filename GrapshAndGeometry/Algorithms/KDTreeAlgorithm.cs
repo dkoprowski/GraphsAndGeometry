@@ -106,7 +106,7 @@ namespace GrapshAndGeometry.Algorithms
 
             Console.WriteLine();
             Console.WriteLine("Query for region x[-200:200] y[-200:200]");
-            KdTreeQuery(kdTree, new Region(200, -200));
+            KdTreeQuery(kdTree, new Region(0, 0));
             Console.WriteLine();
         }
 

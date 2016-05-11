@@ -20,7 +20,8 @@ namespace GrapshAndGeometry
             Console.WriteLine("Type [1] for Closest Pair of Points (Divide and Conquer)");
             Console.WriteLine("Type [2] for K-Dimensional tree (Orthogonal range searching)");
             Console.WriteLine("Type [3] for Triangulate strict monotone polygon");
-            Console.WriteLine("Type [exit] to finish program");
+            Console.WriteLine("Type [4] for K-Center problem");
+            Console.WriteLine("Type [exit] or [q] to finish program");
 
             GetResponse();
         }
@@ -44,10 +45,16 @@ namespace GrapshAndGeometry
                     IAlgorithm triangulate = new TriangulatePolygonAlgorithm();
                     triangulate.Run();
                     break;
+                case "4":
+                    IAlgorithm kcenter = new KCenter();
+                    kcenter.Run();
+                    break;
                 default:
                     Console.WriteLine("I don't understand. Try something from list below: ");
                     break;
                 case "exit":
+                    return;
+                case "q":
                     return;
             }
             Console.WriteLine("-----------------------------------");
