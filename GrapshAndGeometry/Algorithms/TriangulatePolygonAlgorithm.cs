@@ -62,7 +62,7 @@ namespace GrapshAndGeometry.Algorithms
                 {
                     var peekedVerticle = stackedVerticles.Peek();
 
-                    for (int j = 1; j < stackedVerticles.Count; j++)
+                    for (int j = 1; j <= stackedVerticles.Count; j++)
                     {
                         var popedVerticle = stackedVerticles.Pop();
                         Console.WriteLine(sortedPolygon[i] + " <-A-> " + popedVerticle);
@@ -78,9 +78,10 @@ namespace GrapshAndGeometry.Algorithms
                 {
                     var popedVerticle = stackedVerticles.Pop();
 
-                    while (stackedVerticles.Count > 0 && IsLineSegmentInsidePolygon(polygon, sortedPolygon[i], stackedVerticles.Peek()))
+                    while (stackedVerticles.Count > 0 && IsLineSegmentInsidePolygon(polygon, sortedPolygon[i], stackedVerticles.Peek(), popedVerticle))
                     {
                         popedVerticle = stackedVerticles.Pop();
+
                         Console.WriteLine(sortedPolygon[i] + " <-B-> " + popedVerticle);
 
                     }
@@ -126,32 +127,10 @@ namespace GrapshAndGeometry.Algorithms
                 return 1;
             return 0;
         }
-        private bool IsLineSegmentInsidePolygon(List<Point> polygon, Point LineSegmentA, Point LineSegmentB)
+        private bool IsLineSegmentInsidePolygon(List<Point> polygon, Point checkedPoint, Point previousPoint, Point prePreviousPoint)
         {
-            List<Point> pointsOnLeft = new List<Point>();
-            List<Point> pointsOnRight = new List<Point>();
-            for (int i = 0; i < polygon.Count; i++)
-            {
-                if (AreSegmentsHardInterset(LineSegmentA, LineSegmentB, polygon[i], PreviousPoint(polygon, polygon[i])))
-                    return false;
-
-                if (PointPlacement(LineSegmentA, LineSegmentB, polygon[i]) > 0)
-                {
-                    pointsOnRight.Add(polygon[i]);
-                }
-                else if (PointPlacement(LineSegmentA, LineSegmentB, polygon[i]) < 0)
-                {
-                    pointsOnLeft.Add(polygon[i]);
-                }
-                /*
-                if (IsOnTheSameChain(polygon, PreviousPoint(polygon, polygon[i]), polygon[i]))
-                    return false;
-                */
-            }
-
-            if (/*srodek odcinka jest w srodku polygonu to OK*/ true) ;
-
-            if (pointsOnLeft.Count == 0 || pointsOnRight.Count == 0)
+            var orientation = PointOrientation(previousPoint, prePreviousPoint, checkedPoint);
+            if (orientation == 0 || orientation < 0)
                 return false;
 
             return true;
@@ -200,6 +179,21 @@ namespace GrapshAndGeometry.Algorithms
 
         public List<Point> GenerateMonotonePolygon()
         {
+            return new List<Point>{
+                new Point(1,3),
+                new Point(2,1),
+                new Point(4,1),
+                new Point(5,2),
+                new Point(13,0),
+                new Point(14,3),
+                new Point(12,5),
+                new Point(11,4),
+                new Point(10,7),
+                new Point(9,3),
+                new Point(7,2),
+                new Point(3,5)
+
+            };
             /*
             return new List <Point>{
                 new Point(2,2),
@@ -211,6 +205,7 @@ namespace GrapshAndGeometry.Algorithms
                 new Point(3,6)
             };
             */
+            /*
             return new List<Point>{
                 new Point(2,2),
                 new Point(6,5),
@@ -221,6 +216,7 @@ namespace GrapshAndGeometry.Algorithms
                 new Point(12,8),
                 new Point(4,8)
             };
+            */
         }
     }
 }
