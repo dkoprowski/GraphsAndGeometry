@@ -21,8 +21,9 @@ namespace GrapshAndGeometry
             Console.WriteLine("Type [2] for K-Dimensional tree (Orthogonal range searching)");
             Console.WriteLine("Type [3] for Triangulate strict monotone polygon");
             Console.WriteLine("Type [4] for K-Center problem");
+            Console.WriteLine("Type [5] for Graph Cut problem");
             Console.WriteLine("Type [exit] or [q] to finish program");
-
+            
             GetResponse();
         }
 
@@ -48,6 +49,10 @@ namespace GrapshAndGeometry
                 case "4":
                     IAlgorithm kcenter = new KCenter();
                     kcenter.Run();
+                    break;
+                case "5":
+                    IAlgorithm graphCut = new GraphCutAlgorithm();
+                    graphCut.Run();
                     break;
                 default:
                     Console.WriteLine("I don't understand. Try something from list below: ");

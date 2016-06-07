@@ -8,6 +8,7 @@ namespace GrapshAndGeometry.Algorithms
 {
     class TriangulatePolygonAlgorithm : IAlgorithm
     {
+        private bool upperLine;
         private Stack<Point> stackedVerticles;
         public void Run()
         {
@@ -49,6 +50,11 @@ namespace GrapshAndGeometry.Algorithms
             var sortedPolygon = new List<Point>(polygon);
             sortedPolygon.Sort();
 
+            if (sortedPolygon[0].y <= sortedPolygon[1].x)
+                upperLine = true;
+            else
+                upperLine = false;
+
             stackedVerticles.Push(sortedPolygon[0]);
             stackedVerticles.Push(sortedPolygon[1]);
 
@@ -60,6 +66,7 @@ namespace GrapshAndGeometry.Algorithms
 
                 if (!IsOnTheSameChain(polygon, sortedPolygon[i], stackedVerticles.Peek()))
                 {
+                    upperLine = !upperLine;
                     var peekedVerticle = stackedVerticles.Peek();
 
                     for (int j = 1; j <= stackedVerticles.Count; j++)
@@ -130,8 +137,17 @@ namespace GrapshAndGeometry.Algorithms
         private bool IsLineSegmentInsidePolygon(List<Point> polygon, Point checkedPoint, Point previousPoint, Point prePreviousPoint)
         {
             var orientation = PointOrientation(previousPoint, prePreviousPoint, checkedPoint);
-            if (orientation == 0 || orientation < 0)
-                return false;
+            if (upperLine)
+            {
+                if (orientation == 0 || orientation > 0)
+                    return false;
+            }
+            else
+            {
+                if (orientation == 0 || orientation < 0)
+                    return false;
+            }
+
 
             return true;
         }
@@ -189,8 +205,8 @@ namespace GrapshAndGeometry.Algorithms
                 new Point(12,5),
                 new Point(11,4),
                 new Point(10,7),
-                new Point(9,3),
-                new Point(7,2),
+                new Point(9,4),
+                new Point(7,3),
                 new Point(3,5)
 
             };

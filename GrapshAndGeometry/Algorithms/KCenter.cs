@@ -12,8 +12,8 @@ namespace GrapshAndGeometry.Algorithms
         {
             var settlements = GetSettlements();
             var linearSettlements = GetSettlementsLinear();
-            FurthestFirst(settlements, 3);
-            //FurthestFirst(linearSettlements, 5);
+            //FurthestFirst(settlements, 3);
+            FurthestFirst(linearSettlements, 5);
 
 
         }
