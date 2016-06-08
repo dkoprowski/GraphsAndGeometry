@@ -10,26 +10,30 @@ namespace GrapshAndGeometry.Algorithms
     {
         private int[,] graph;
         private List<Point> edges = new List<Point>();
+        private Random random = new Random();
         public void Run()
         {
+            edges = new List<Point>();
+            random = new Random();
             graph = GetGraph();
             PrintGraph();
+            PrintEdges();
             RandomMinCut();
+
             /*
             MergePoints(0, 2);
             PrintGraph();
             MergePoints(1, 3);
             */
             PrintGraph();
+            PrintEdges();
         }
         private void RandomMinCut()
         {
-            var random = new Random();
-            while(edges.Count > 2)
+            while(verticlesCount() > 2)
             {
-                var randomEdge = edges[random.Next(edges.Count)];
-                MergePoints(randomEdge.x, randomEdge.y);
-                edges.Remove(randomEdge);
+                var randEdge = randomEdge();
+                MergePoints(randEdge.x, randEdge.y);
             }
         }
         private void PrintGraph()
@@ -39,12 +43,66 @@ namespace GrapshAndGeometry.Algorithms
                 for (int j = 0; j < graph.GetLength(1); j++)
                 {
                     Console.Write(graph[i, j]);
-                    if (graph[i, j] == 1)
-                        edges.Add(new Point(i, j));
                 }
                 Console.WriteLine();
             }
             Console.WriteLine();
+        }
+        private Point randomEdge()
+        {
+            var currEdges = new List<Point>();
+            for (int i = 0; i < graph.GetLength(0); i++)
+            {
+                for (int j = 0; j < graph.GetLength(1); j++)
+                {
+                    if (graph[i, j] > 0)
+                        currEdges.Add(new Point(i, j));
+                }
+            }
+
+            return currEdges[random.Next(currEdges.Count)];
+        }
+        private int verticlesCount()
+        {
+            int[] verts = new int[graph.GetLength(0)];
+            int count =0;
+            for (int i = 0; i < graph.GetLength(0); i++)
+            {
+                for (int j = 0; j < graph.GetLength(1); j++)
+                {
+                    if (graph[i, j] > 0)
+                    {
+                        verts[i]++;
+                    }
+                }
+            }
+            for (int i = 0; i < verts.Length; i++)
+            {
+                if (verts[i] > 0)
+                    count++;
+            }
+
+            return count;
+        }
+        private void PrintEdges()
+        {
+            Dictionary<Point, int> edgesToPrint = new Dictionary<Point, int>();
+            for (int i = 0; i < graph.GetLength(0); i++)
+            {
+                for (int j = 0; j < graph.GetLength(1); j++)
+                {
+                    if(graph[i, j] > 0)
+                    {
+                        if(!edgesToPrint.ContainsKey(new Point(j, i)))
+                            edgesToPrint.Add(new Point(i, j), graph[i, j]);
+                    }
+                }
+            }
+            Console.WriteLine();
+            foreach (var item in edgesToPrint)
+            {
+                Console.WriteLine(item.Key.x + " --(" + item.Value + ")-- " + item.Key.y);
+            }            
         }
         private void MergePoints(int mergeToPoint, int mergeFromPoint)
         {
@@ -72,7 +130,7 @@ namespace GrapshAndGeometry.Algorithms
         public int[,] GetGraph()
         {
             var graph = new int[5, 5];
-            edges.Add(new Point(0, 2));
+          //  edges.Add(new Point(0, 2));
             edges.Add(new Point(0, 4));
             edges.Add(new Point(1, 2));
             edges.Add(new Point(1, 3));

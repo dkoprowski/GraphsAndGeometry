@@ -195,21 +195,6 @@ namespace GrapshAndGeometry.Algorithms
 
         public List<Point> GenerateMonotonePolygon()
         {
-            return new List<Point>{
-                new Point(1,3),
-                new Point(2,1),
-                new Point(4,1),
-                new Point(5,2),
-                new Point(13,0),
-                new Point(14,3),
-                new Point(12,5),
-                new Point(11,4),
-                new Point(10,7),
-                new Point(9,4),
-                new Point(7,3),
-                new Point(3,5)
-
-            };
             /*
             return new List <Point>{
                 new Point(2,2),
@@ -221,7 +206,7 @@ namespace GrapshAndGeometry.Algorithms
                 new Point(3,6)
             };
             */
-            /*
+            
             return new List<Point>{
                 new Point(2,2),
                 new Point(6,5),
@@ -232,7 +217,7 @@ namespace GrapshAndGeometry.Algorithms
                 new Point(12,8),
                 new Point(4,8)
             };
-            */
+            
         }
     }
 }
